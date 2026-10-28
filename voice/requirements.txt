@@ -1,0 +1,8 @@
+# voice/ — node 06. Python 3.11+.
+# `python -m voice.serve --fake` needs none of these (stdlib only).
+numpy>=1.26
+scipy>=1.11            # resample_poly (device rate <-> 16 kHz)
+sounddevice>=0.4.6     # PortAudio; channel-exact playback on R
+faster-whisper>=1.0    # local STT (CTranslate2), pulls onnxruntime for the Silero VAD filter
+webrtcvad-wheels>=2.0.14  # frame VAD (optional: falls back to the energy gate)
+# TTS: macOS `say` is built in. For piper: pip install piper-tts, then download .onnx voices.

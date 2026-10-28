@@ -1,0 +1,88 @@
+{
+  "contract_version": "0.3",
+  "intention_source": "inferred",
+  "intention": "to be met where I am, without being pushed",
+  "negotiation": "A fallback: it mirrors gently and holds; it does not try to change what was felt.",
+  "trajectory": "hold",
+  "length": "medium",
+  "diagram": "mystery-engage",
+  "mirror_emotion": "mystery",
+  "mixture": [
+    {
+      "emotion": "mystery",
+      "weight": 0.5
+    },
+    {
+      "emotion": "longing",
+      "weight": 0.4
+    },
+    {
+      "emotion": "patience",
+      "weight": 0.3
+    }
+  ],
+  "tension": "not knowing what it is, and still wanting it near",
+  "movements": [
+    {
+      "phase": "mirror",
+      "at": "void",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "resting",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "p5",
+          "min6"
+        ],
+        "density": "medium",
+        "brightness": "veiled"
+      },
+      "transition": "glide"
+    },
+    {
+      "phase": "dwell",
+      "at": "longing",
+      "span": "long",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "p5",
+          "min3"
+        ],
+        "density": "medium",
+        "brightness": "dark"
+      },
+      "transition": "slow_glide"
+    },
+    {
+      "phase": "resurface",
+      "at": "patience",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "faint"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "p5",
+          "maj6"
+        ],
+        "density": "sparse",
+        "brightness": "clear"
+      },
+      "transition": "slow_glide"
+    }
+  ],
+  "title": "the centre of the star"
+}

@@ -1,0 +1,433 @@
+{
+  "contract_version": "0.3",
+  "about": "Provenance of the emotion enum in score.schema.json. Source: Rina Nicolae (@chthonic__youth) diagrams in docs/emotion-framework/. 'include' terms are the enum (each term appears once in the enum even if it appears in several diagrams). 'exclude' terms are kept here so the team can move them back in. Relations, edges, paths and felt descriptions are NOT encoded here; that is interpretation/emotion_framework.json (node 01), which must use only enum terms. Run contract/check_contract.py after any edit.",
+  "inclusion_rule": "A term is included if a visitor could plausibly say 'right now I feel / I am in ___' and it names a felt quality, not a mechanism, a social genre or an institution.",
+  "diagrams": [
+    {
+      "file": "uncertainty-develop.png",
+      "shape": "tree",
+      "include": [
+        "uncertainty",
+        "threat",
+        "opportunity",
+        "fear",
+        "anxiety",
+        "vigilance",
+        "excitement",
+        "hope",
+        "aspiration"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "attraction-identification.png",
+      "shape": "relation glyphs",
+      "include": [
+        "attraction",
+        "allure",
+        "seduction",
+        "temptation",
+        "transgression",
+        "desecration"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "desire-control.png",
+      "shape": "tree",
+      "include": [
+        "desire",
+        "appetite",
+        "violation",
+        "attraction",
+        "allure",
+        "seduction",
+        "temptation",
+        "transgression",
+        "desecration"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "fate-engage.png",
+      "shape": "funnel to vector",
+      "include": [
+        "fate",
+        "destiny"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "devotion-commit.png",
+      "shape": "lattice",
+      "include": [
+        "devotion",
+        "idealization",
+        "submission",
+        "understanding",
+        "romance",
+        "worship",
+        "care"
+      ],
+      "exclude": [
+        "imitation",
+        "service",
+        "fandom",
+        "following"
+      ]
+    },
+    {
+      "file": "content-detail.png",
+      "shape": "nested circles",
+      "include": [],
+      "exclude": [
+        "content",
+        "entertainment",
+        "culture",
+        "tradition",
+        "ritual",
+        "sacred (use sacredness)"
+      ]
+    },
+    {
+      "file": "competence-play.png",
+      "shape": "diamond (+/-)",
+      "include": [
+        "play",
+        "grace",
+        "clumsiness",
+        "competence"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "will-project.png",
+      "shape": "nested circles with vectors",
+      "include": [],
+      "exclude": [
+        "my will",
+        "the will of the world (relational frame; useful for the tension field)"
+      ]
+    },
+    {
+      "file": "consequence-deal.png",
+      "shape": "2x2 quadrant",
+      "include": [
+        "justice",
+        "mercy",
+        "permission"
+      ],
+      "exclude": [
+        "prevention"
+      ]
+    },
+    {
+      "file": "abundance-blossom.png",
+      "shape": "fan from surplus (luxury side / catastrophe side)",
+      "include": [
+        "surplus",
+        "reserves",
+        "leakage",
+        "intensification",
+        "stabilization",
+        "expansion",
+        "domination",
+        "dissipation",
+        "destruction",
+        "luxury",
+        "catastrophe"
+      ],
+      "exclude": [
+        "production",
+        "maintenance",
+        "differentiation"
+      ]
+    },
+    {
+      "file": "reality-influence.png",
+      "shape": "venn",
+      "include": [],
+      "exclude": [
+        "it's your choice / it's not your choice (relational frame; useful for the tension field)"
+      ]
+    },
+    {
+      "file": "commitment-levels.png",
+      "shape": "lattice",
+      "include": [
+        "commitment",
+        "witness",
+        "renunciation",
+        "risk",
+        "sacrifice"
+      ],
+      "exclude": [
+        "cost",
+        "duration",
+        "investment",
+        "oath",
+        "marriage",
+        "wager"
+      ]
+    },
+    {
+      "file": "desire-amplify.png",
+      "shape": "arcs over axis LACK→POSSESSION",
+      "include": [
+        "lack",
+        "attraction",
+        "fantasy",
+        "pursuit",
+        "possession",
+        "longing",
+        "wishing",
+        "seeking",
+        "infatuation",
+        "seduction",
+        "ambition",
+        "attachment",
+        "conquest"
+      ],
+      "exclude": [
+        "projection"
+      ]
+    },
+    {
+      "file": "future-shaping.png",
+      "shape": "tree",
+      "include": [
+        "possibility",
+        "prohibition",
+        "permission",
+        "obligation",
+        "coercion"
+      ],
+      "exclude": [
+        "future shaping",
+        "self",
+        "others",
+        "environment",
+        "tendency",
+        "persuasion",
+        "influence"
+      ]
+    },
+    {
+      "file": "drive-identify.png",
+      "shape": "pentagram (vertices + named edges)",
+      "include": [
+        "power",
+        "recognition",
+        "desire",
+        "ambiguity",
+        "fragility",
+        "legitimacy",
+        "precarity",
+        "insecurity",
+        "fantasy",
+        "illegibility",
+        "dependency",
+        "hypervigilance"
+      ],
+      "exclude": [
+        "charisma",
+        "exhibition",
+        "mystique"
+      ]
+    },
+    {
+      "file": "indirect-act.png",
+      "shape": "lattice",
+      "include": [],
+      "exclude": [
+        "indirect action",
+        "messages",
+        "symbols",
+        "framing",
+        "timing",
+        "rules",
+        "seduction (included elsewhere)",
+        "advertising",
+        "ritual",
+        "diplomacy",
+        "magic"
+      ]
+    },
+    {
+      "file": "desire-indulge.png",
+      "shape": "pentagram (vertices + named edges)",
+      "include": [
+        "desire",
+        "lack",
+        "taboo",
+        "escalation",
+        "compulsion",
+        "longing",
+        "temptation",
+        "repression",
+        "urge",
+        "obsession",
+        "greed",
+        "transgression",
+        "spiral"
+      ],
+      "exclude": [
+        "addiction (clinical label; would surface in titles shown to visitors)",
+        "perversion (stigmatizing label; same reason)"
+      ]
+    },
+    {
+      "file": "confidence-hone.png",
+      "shape": "four ascending paths",
+      "include": [
+        "safety",
+        "comfort",
+        "serenity",
+        "peace",
+        "meaning",
+        "significance",
+        "sacredness",
+        "revelation",
+        "status",
+        "admiration",
+        "glory",
+        "transcendence",
+        "belonging",
+        "intimacy",
+        "communion",
+        "union"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "routine-build.png",
+      "shape": "nested circles",
+      "include": [
+        "meaning"
+      ],
+      "exclude": [
+        "existence",
+        "structure",
+        "strategy",
+        "execution"
+      ]
+    },
+    {
+      "file": "spectacle-map.png",
+      "shape": "fan with modifiers",
+      "include": [],
+      "exclude": [
+        "spectacle",
+        "circus",
+        "ritual",
+        "carnival",
+        "disaster porn",
+        "ceremony",
+        "identity theater",
+        "luxury (included elsewhere)",
+        "bloodsport",
+        "sport",
+        "modifiers: abnormality, devotion, norm suspension, collapse, power, identity, wealth, violence, competition"
+      ]
+    },
+    {
+      "file": "habit-build.png",
+      "shape": "nested circles",
+      "include": [],
+      "exclude": [
+        "intention",
+        "action",
+        "behavior",
+        "habit",
+        "nature"
+      ]
+    },
+    {
+      "file": "power-develop.png",
+      "shape": "ladder (levels of power)",
+      "include": [
+        "void"
+      ],
+      "exclude": [
+        "being",
+        "meaning (included elsewhere)",
+        "protocol",
+        "strategy",
+        "execution"
+      ]
+    },
+    {
+      "file": "grace-development.png",
+      "shape": "fan with modifiers",
+      "include": [
+        "grace",
+        "prowess",
+        "recovery",
+        "dignity",
+        "play",
+        "restraint",
+        "harmony",
+        "suffering",
+        "urgency",
+        "refusal"
+      ],
+      "exclude": [
+        "reflex",
+        "modifiers: error, multiplicity (power and clumsiness are covered elsewhere)"
+      ]
+    },
+    {
+      "file": "fate-control.png",
+      "shape": "arcs over axis INHERITANCE→PATTERN",
+      "include": [
+        "chance",
+        "choice",
+        "necessity",
+        "gamble",
+        "destiny",
+        "synchronicity",
+        "commitment"
+      ],
+      "exclude": [
+        "inheritance",
+        "pattern",
+        "lot",
+        "tradition",
+        "birthright",
+        "preference",
+        "law"
+      ],
+      "note": "Diagram spells SYNCHONICITY; enum uses 'synchronicity'."
+    },
+    {
+      "file": "mystery-engage.png",
+      "shape": "pentagram (vertices + named edges)",
+      "include": [
+        "mystery",
+        "absence",
+        "desire",
+        "hope",
+        "vulnerability",
+        "void",
+        "allure",
+        "longing",
+        "faith",
+        "awe",
+        "loss",
+        "expectation",
+        "patience",
+        "need",
+        "disappointment"
+      ],
+      "exclude": []
+    },
+    {
+      "file": "boundary-setting.png",
+      "shape": "bipolar axes ('ways to do things')",
+      "include": [],
+      "exclude": [
+        "clumsy/graceful, strained/easy, hesitant/decisive, rigid/flexible, insincere/genuine, reckless/considerate (manner vocabulary, not emotions; 01 should use these to describe palette options)"
+      ]
+    }
+  ]
+}

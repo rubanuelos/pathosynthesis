@@ -1,0 +1,127 @@
+{
+  "contract_version": "0.3",
+  "diagram": "habit-build",
+  "mirror_emotion": "compulsion",
+  "mixture": [
+    {
+      "emotion": "compulsion",
+      "weight": 0.8,
+      "heard": "I can't stop doing it"
+    },
+    {
+      "emotion": "disappointment",
+      "weight": 0.5,
+      "heard": "annoyed at myself"
+    },
+    {
+      "emotion": "longing",
+      "weight": 0.4,
+      "heard": "I miss who I was before"
+    }
+  ],
+  "destination": [
+    {
+      "emotion": "longing",
+      "weight": 0.5
+    },
+    {
+      "emotion": "patience",
+      "weight": 0.6
+    },
+    {
+      "emotion": "compulsion",
+      "weight": 0.2
+    }
+  ],
+  "tension": "a habit that has started to feel like who they are",
+  "intention": "I'd like to remember why I started",
+  "intention_source": "stated",
+  "negotiation": "The piece walks back from what feels like nature to the intention under it; it does not promise the habit will stop.",
+  "trajectory": "dissolve",
+  "length": "medium",
+  "movements": [
+    {
+      "phase": "mirror",
+      "at": "nature",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "elevated",
+        "regularity": "uneven",
+        "weight": "heavy"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "min3",
+          "p5",
+          "maj2",
+          "min7"
+        ],
+        "density": "thick",
+        "brightness": "veiled"
+      },
+      "transition": "glide"
+    },
+    {
+      "phase": "dwell",
+      "at": "habit",
+      "span": "long",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "p5",
+          "min3",
+          "octave"
+        ],
+        "density": "medium",
+        "brightness": "dark"
+      },
+      "transition": "slow_glide"
+    },
+    {
+      "phase": "transform",
+      "at": "action",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "resting",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "p5",
+          "maj2"
+        ],
+        "density": "sparse",
+        "brightness": "clear"
+      },
+      "transition": "slow_glide"
+    },
+    {
+      "phase": "resurface",
+      "at": "intention",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "resting",
+        "regularity": "steady",
+        "weight": "faint"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "p5"
+        ],
+        "density": "sparse",
+        "brightness": "clear"
+      },
+      "transition": "glide"
+    }
+  ],
+  "title": "before it was a habit, it was a reason"
+}

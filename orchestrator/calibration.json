@@ -1,0 +1,5 @@
+{
+  "_comment": "Install-time ceilings (contract §7.3), 0..1. SC holds the absolute calibrated max and limiter; these cap what the orchestrator sends.",
+  "master_max": 1.0,
+  "chair_max": 1.0
+}

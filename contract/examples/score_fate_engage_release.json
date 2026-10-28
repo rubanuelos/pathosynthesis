@@ -1,0 +1,91 @@
+{
+  "contract_version": "0.3",
+  "diagram": "fate-engage",
+  "mirror_emotion": "uncertainty",
+  "mixture": [
+    {
+      "emotion": "uncertainty",
+      "weight": 0.7,
+      "heard": "I don't know"
+    },
+    {
+      "emotion": "fear",
+      "weight": 0.5,
+      "heard": "scared to choose wrong"
+    },
+    {
+      "emotion": "possibility",
+      "weight": 0.4
+    }
+  ],
+  "tension": "many futures open, none of them chosen",
+  "intention": "I want to feel ready to decide",
+  "intention_source": "stated",
+  "trajectory": "release",
+  "length": "brief",
+  "movements": [
+    {
+      "phase": "mirror",
+      "at": "fate",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "elevated",
+        "regularity": "erratic",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "maj2",
+          "tritone",
+          "p5",
+          "min6",
+          "maj7"
+        ],
+        "density": "thick",
+        "brightness": "veiled"
+      },
+      "transition": "glide"
+    },
+    {
+      "phase": "dwell",
+      "at": "point",
+      "span": "short",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "heavy"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "octave"
+        ],
+        "density": "sparse",
+        "brightness": "dark"
+      },
+      "transition": "cut"
+    },
+    {
+      "phase": "resurface",
+      "at": "destiny",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "resting",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "p5",
+          "maj3"
+        ],
+        "density": "sparse",
+        "brightness": "bright"
+      },
+      "transition": "slow_glide"
+    }
+  ],
+  "title": "a field narrowing to a step"
+}

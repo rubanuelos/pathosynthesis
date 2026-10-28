@@ -1,0 +1,56 @@
+# voice/config.toml — Pathosynthesis node 06 (voice)
+# Only keys you change need to be here; defaults live in voice/config.py.
+# "" means None / system default.
+# Find device names with:  python -m voice.check devices
+
+[server]
+host = "127.0.0.1"
+port = 8010
+
+[output]
+device = ""            # e.g. "Scarlett" — the shared 2-ch interface SuperCollider also uses
+channel = 2            # R = 8" speaker under the water. Channel 1 (L, chair) is refused in code.
+samplerate = 48000     # = SuperCollider's s.options.sampleRate
+peak_dbfs = -6.0
+gain_db = 0.0          # set at install, by ear, with the room full
+max_peak_dbfs = -1.0
+fade_ms = 15.0
+listen_cue = ""        # optional WAV after each question, e.g. "voice/cues/listen.wav"
+
+[input]
+device = ""            # mic near the object
+channel = 1
+samplerate = 48000
+gain_db = 0.0
+
+[tts]
+engine = "say"         # "say" (macOS) | "piper"
+default_lang = "en"
+rate_wpm = 160
+# The voice is an artistic choice for the team. `say -v '?'` lists installed voices;
+# premium/enhanced voices sound far better (System Settings > Accessibility > Spoken Content).
+voices = { en = "Samantha", es = "Paulina" }
+# piper_models = { en = "voice/models/en_US-lessac-medium.onnx", es = "voice/models/es_MX-claude-high.onnx" }
+piper_length_scale = 1.0
+cache_size = 32
+
+[listen]
+delay_s = 0.25
+no_speech_timeout_s = 12.0
+vad_aggressiveness = 2
+speech_gate_dbfs = -50.0   # calibrate in the gallery: python -m voice.check meter
+onset_window_ms = 300
+onset_ratio = 0.6
+min_voiced_s = 0.35
+preroll_s = 0.4
+tail_s = 0.3
+
+[stt]
+model = "small"            # try "medium" or "large-v3-turbo" if latency allows
+device = "cpu"
+compute_type = "int8"
+beam_size = 5
+languages = ["en", "es"]   # [] = accept any language Whisper detects
+lang_confidence = 0.6
+vad_filter = true
+log_transcripts = false

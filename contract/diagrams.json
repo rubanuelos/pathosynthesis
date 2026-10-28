@@ -1,0 +1,301 @@
+{
+  "contract_version": "0.3",
+  "about": "Geometry of Rina Nicolae's diagrams, for the score's `diagram` and `movements[].at`. A diagram is usable in a score only when active=true: it has positions here AND a sound patch in sound/. Activating another diagram = contract change request (add positions + levels, compose the patch). level is an integer; levels = max level + 1; the orchestrator sends depth = level / (levels - 1). What level means musically is decided by each diagram's patch (composition), not here.",
+  "diagrams": {
+    "abundance-blossom": {
+      "file": "abundance-blossom.png",
+      "shape": "fan from surplus (luxury side / catastrophe side)",
+      "active": false,
+      "positions": []
+    },
+    "attraction-identification": {
+      "file": "attraction-identification.png",
+      "shape": "relation glyphs",
+      "active": false,
+      "positions": []
+    },
+    "boundary-setting": {
+      "file": "boundary-setting.png",
+      "shape": "bipolar axes ('ways to do things')",
+      "active": false,
+      "positions": []
+    },
+    "commitment-levels": {
+      "file": "commitment-levels.png",
+      "shape": "lattice",
+      "active": false,
+      "positions": []
+    },
+    "competence-play": {
+      "file": "competence-play.png",
+      "shape": "diamond (+/-)",
+      "active": false,
+      "positions": []
+    },
+    "confidence-hone": {
+      "file": "confidence-hone.png",
+      "shape": "four ascending paths",
+      "active": false,
+      "positions": []
+    },
+    "consequence-deal": {
+      "file": "consequence-deal.png",
+      "shape": "2x2 quadrant",
+      "active": false,
+      "positions": []
+    },
+    "content-detail": {
+      "file": "content-detail.png",
+      "shape": "nested circles",
+      "active": false,
+      "positions": []
+    },
+    "desire-amplify": {
+      "file": "desire-amplify.png",
+      "shape": "arcs over axis LACK→POSSESSION",
+      "active": false,
+      "positions": []
+    },
+    "desire-control": {
+      "file": "desire-control.png",
+      "shape": "tree",
+      "active": false,
+      "positions": []
+    },
+    "desire-indulge": {
+      "file": "desire-indulge.png",
+      "shape": "pentagram (vertices + named edges)",
+      "active": false,
+      "positions": []
+    },
+    "devotion-commit": {
+      "file": "devotion-commit.png",
+      "shape": "lattice",
+      "active": false,
+      "positions": []
+    },
+    "drive-identify": {
+      "file": "drive-identify.png",
+      "shape": "pentagram (vertices + named edges)",
+      "active": false,
+      "positions": []
+    },
+    "fate-control": {
+      "file": "fate-control.png",
+      "shape": "arcs over axis INHERITANCE→PATTERN",
+      "active": false,
+      "positions": []
+    },
+    "fate-engage": {
+      "file": "fate-engage.png",
+      "shape": "funnel to vector",
+      "active": true,
+      "axis": "vertical, bottom to top. level 0 = the open field between the two curves (fate), level 1 = the black dot where the curves meet (unnamed in the diagram; called 'point' here), level 2 = the arrow leaving the dot (destiny).",
+      "positions": [
+        {
+          "name": "fate",
+          "level": 0
+        },
+        {
+          "name": "point",
+          "level": 1,
+          "note": "unnamed black dot in the diagram"
+        },
+        {
+          "name": "destiny",
+          "level": 2
+        }
+      ]
+    },
+    "future-shaping": {
+      "file": "future-shaping.png",
+      "shape": "tree",
+      "active": false,
+      "positions": []
+    },
+    "grace-development": {
+      "file": "grace-development.png",
+      "shape": "fan with modifiers",
+      "active": false,
+      "positions": []
+    },
+    "habit-build": {
+      "file": "habit-build.png",
+      "shape": "nested circles",
+      "active": true,
+      "axis": "radial. Nested circles that all touch at one point on the left. level 0 = innermost circle (intention), level 4 = outermost (nature).",
+      "positions": [
+        {
+          "name": "intention",
+          "level": 0
+        },
+        {
+          "name": "action",
+          "level": 1
+        },
+        {
+          "name": "behavior",
+          "level": 2
+        },
+        {
+          "name": "habit",
+          "level": 3
+        },
+        {
+          "name": "nature",
+          "level": 4
+        }
+      ]
+    },
+    "indirect-act": {
+      "file": "indirect-act.png",
+      "shape": "lattice",
+      "active": false,
+      "positions": []
+    },
+    "mystery-engage": {
+      "file": "mystery-engage.png",
+      "shape": "pentagram (vertices + named edges)",
+      "active": true,
+      "axis": "radial, measured from the centre of the pentagram. level 0 = the five star chords (their midpoints sit nearest the centre), level 1 = the five pentagon sides, level 2 = the five vertices (outermost).",
+      "positions": [
+        {
+          "name": "longing",
+          "level": 0,
+          "edge": [
+            "absence",
+            "desire"
+          ]
+        },
+        {
+          "name": "faith",
+          "level": 0,
+          "edge": [
+            "mystery",
+            "hope"
+          ]
+        },
+        {
+          "name": "awe",
+          "level": 0,
+          "edge": [
+            "mystery",
+            "vulnerability"
+          ]
+        },
+        {
+          "name": "loss",
+          "level": 0,
+          "edge": [
+            "absence",
+            "vulnerability"
+          ]
+        },
+        {
+          "name": "expectation",
+          "level": 0,
+          "edge": [
+            "desire",
+            "hope"
+          ]
+        },
+        {
+          "name": "void",
+          "level": 1,
+          "edge": [
+            "mystery",
+            "absence"
+          ]
+        },
+        {
+          "name": "allure",
+          "level": 1,
+          "edge": [
+            "mystery",
+            "desire"
+          ]
+        },
+        {
+          "name": "need",
+          "level": 1,
+          "edge": [
+            "desire",
+            "vulnerability"
+          ]
+        },
+        {
+          "name": "disappointment",
+          "level": 1,
+          "edge": [
+            "vulnerability",
+            "hope"
+          ]
+        },
+        {
+          "name": "patience",
+          "level": 1,
+          "edge": [
+            "hope",
+            "absence"
+          ]
+        },
+        {
+          "name": "mystery",
+          "level": 2
+        },
+        {
+          "name": "desire",
+          "level": 2
+        },
+        {
+          "name": "vulnerability",
+          "level": 2
+        },
+        {
+          "name": "hope",
+          "level": 2
+        },
+        {
+          "name": "absence",
+          "level": 2
+        }
+      ]
+    },
+    "power-develop": {
+      "file": "power-develop.png",
+      "shape": "ladder (levels of power)",
+      "active": false,
+      "positions": []
+    },
+    "reality-influence": {
+      "file": "reality-influence.png",
+      "shape": "venn",
+      "active": false,
+      "positions": []
+    },
+    "routine-build": {
+      "file": "routine-build.png",
+      "shape": "nested circles",
+      "active": false,
+      "positions": []
+    },
+    "spectacle-map": {
+      "file": "spectacle-map.png",
+      "shape": "fan with modifiers",
+      "active": false,
+      "positions": []
+    },
+    "uncertainty-develop": {
+      "file": "uncertainty-develop.png",
+      "shape": "tree",
+      "active": false,
+      "positions": []
+    },
+    "will-project": {
+      "file": "will-project.png",
+      "shape": "nested circles with vectors",
+      "active": false,
+      "positions": []
+    }
+  }
+}

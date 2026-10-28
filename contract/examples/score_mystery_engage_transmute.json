@@ -1,0 +1,127 @@
+{
+  "contract_version": "0.3",
+  "diagram": "mystery-engage",
+  "mirror_emotion": "absence",
+  "mixture": [
+    {
+      "emotion": "absence",
+      "weight": 0.8,
+      "heard": "something's missing"
+    },
+    {
+      "emotion": "loss",
+      "weight": 0.6,
+      "heard": "grief"
+    },
+    {
+      "emotion": "hope",
+      "weight": 0.3
+    }
+  ],
+  "destination": [
+    {
+      "emotion": "patience",
+      "weight": 0.6
+    },
+    {
+      "emotion": "hope",
+      "weight": 0.5
+    },
+    {
+      "emotion": "loss",
+      "weight": 0.4
+    }
+  ],
+  "tension": "waiting for someone who is not coming back, and still waiting",
+  "intention": "to stop bracing for it",
+  "intention_source": "inferred",
+  "negotiation": "Loss stays audible; the piece only moves the weight from bracing toward patience.",
+  "trajectory": "transmute",
+  "length": "long",
+  "movements": [
+    {
+      "phase": "mirror",
+      "at": "absence",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "uneven",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "min3",
+          "p5",
+          "min7"
+        ],
+        "density": "medium",
+        "brightness": "veiled"
+      },
+      "transition": "glide"
+    },
+    {
+      "phase": "dwell",
+      "at": "loss",
+      "span": "long",
+      "heartbeat": {
+        "tempo": "very_slow",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "p5",
+          "octave"
+        ],
+        "density": "sparse",
+        "brightness": "dark"
+      },
+      "transition": "slow_glide"
+    },
+    {
+      "phase": "transform",
+      "at": "patience",
+      "span": "long",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "maj3",
+          "p5",
+          "maj6"
+        ],
+        "density": "medium",
+        "brightness": "clear"
+      },
+      "transition": "slow_glide"
+    },
+    {
+      "phase": "resurface",
+      "at": "hope",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "resting",
+        "regularity": "steady",
+        "weight": "faint"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "maj3",
+          "p5",
+          "maj2"
+        ],
+        "density": "sparse",
+        "brightness": "bright"
+      },
+      "transition": "glide"
+    }
+  ],
+  "title": "the shape of what is not here"
+}

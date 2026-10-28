@@ -1,0 +1,84 @@
+{
+  "contract_version": "0.3",
+  "intention_source": "inferred",
+  "intention": "to be met where I am, without being pushed",
+  "negotiation": "A fallback: it mirrors gently and holds; it does not try to change what was felt.",
+  "trajectory": "hold",
+  "length": "medium",
+  "diagram": "fate-engage",
+  "mirror_emotion": "uncertainty",
+  "mixture": [
+    {
+      "emotion": "uncertainty",
+      "weight": 0.55
+    },
+    {
+      "emotion": "expectation",
+      "weight": 0.4
+    }
+  ],
+  "tension": "the open field against the wish for one direction",
+  "movements": [
+    {
+      "phase": "mirror",
+      "at": "fate",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "resting",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "p5",
+          "maj2"
+        ],
+        "density": "medium",
+        "brightness": "veiled"
+      },
+      "transition": "glide"
+    },
+    {
+      "phase": "dwell",
+      "at": "fate",
+      "span": "long",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "present"
+      },
+      "chord": {
+        "register": "low",
+        "color": [
+          "p5",
+          "octave"
+        ],
+        "density": "medium",
+        "brightness": "veiled"
+      },
+      "transition": "slow_glide"
+    },
+    {
+      "phase": "resurface",
+      "at": "point",
+      "span": "medium",
+      "heartbeat": {
+        "tempo": "slow",
+        "regularity": "steady",
+        "weight": "faint"
+      },
+      "chord": {
+        "register": "mid",
+        "color": [
+          "p5",
+          "p4"
+        ],
+        "density": "sparse",
+        "brightness": "clear"
+      },
+      "transition": "slow_glide"
+    }
+  ],
+  "title": "where the curves meet"
+}

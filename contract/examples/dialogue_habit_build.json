@@ -1,0 +1,62 @@
+{
+  "contract_version": "0.3",
+  "session_id": "2026-10-28T19-04-11_example",
+  "lang": "en",
+  "exchanges": [
+    {
+      "question": "What are you feeling right now that you don't have a right word for?",
+      "answer": "I don't know. Kind of stuck. I keep doing the same thing every night, scrolling, and I can't stop, and I'm annoyed at myself.",
+      "status": "ok",
+      "speech_s": 9.4,
+      "turn": {
+        "action": "ask",
+        "question": "When you notice your hand already doing it, what is the very first thing you feel?",
+        "planned_questions": 3,
+        "hypothesis": {
+          "diagram": "habit-build",
+          "at": "habit",
+          "mirror_emotion": "compulsion",
+          "unknown": "how deep it sits: a choice, a habit, or 'just who I am'",
+          "confidence": "low"
+        }
+      }
+    },
+    {
+      "question": "When you notice your hand already doing it, what is the very first thing you feel?",
+      "answer": "Nothing really. It's like it's just me now. Like that's just how I am.",
+      "status": "ok",
+      "speech_s": 6.1,
+      "turn": {
+        "action": "ask",
+        "question": "If you could hold on to one moment from before it became like this, what would it be?",
+        "planned_questions": 3,
+        "hypothesis": {
+          "diagram": "habit-build",
+          "at": "nature",
+          "mirror_emotion": "compulsion",
+          "trajectory": "dissolve",
+          "unknown": "what they want: to stop, or to find the reason underneath",
+          "confidence": "medium"
+        }
+      }
+    },
+    {
+      "question": "If you could hold on to one moment from before it became like this, what would it be?",
+      "answer": "The first nights I did it, I was reading about things I cared about. I miss who I was before. I'd like to remember why I started.",
+      "status": "ok",
+      "speech_s": 11.8,
+      "turn": {
+        "action": "compose",
+        "planned_questions": 3,
+        "hypothesis": {
+          "diagram": "habit-build",
+          "at": "nature",
+          "mirror_emotion": "compulsion",
+          "trajectory": "dissolve",
+          "length": "medium",
+          "confidence": "high"
+        }
+      }
+    }
+  ]
+}
