@@ -7,7 +7,7 @@ Both raise InterpretationError on timeout, provider failure, or output that is s
 the orchestrator then falls back (fallback probe from questions.json, or a fallback score).
 
 Hard checks (a failure triggers one retry, then InterpretationError):
-  turn : turn.schema.json; question <= 25 words, one question; never names a diagram/framework or asks for an
+  turn : turn.schema.json; question <= 25 words, one question, no therapy clichés; never names a diagram/framework or asks for an
          emotion; does not offer 2+ vocabulary words the visitor never said; hypothesis.at belongs to hypothesis.diagram.
   score: score.schema.json + the contract's semantic rules (dwell second, resurface last, mirror_emotion in mixture,
          no duplicates in mixture/destination).
@@ -43,6 +43,10 @@ LEAK_PATTERNS = [
 ]
 LEAK_RE = re.compile(r"\b(" + "|".join(LEAK_PATTERNS) + r")\b", re.I)
 WORD_RE = re.compile(r"[\w'’-]+", re.U)
+# The register is the diagrams' (oblique, few words); these give a therapist's voice away. Hard check.
+THERAPY_RE = re.compile(r"(how (does|did) (that|this|it) make you feel|it sounds like|it'?s (okay|ok|normal) to|thank you for sharing|"
+                        r"tell me more|that must be|i hear you|c[oó]mo te hace sentir|suena a que|est[aá] bien sentir|gracias por compartir|"
+                        r"cu[eé]ntame m[aá]s|qu'est-ce que (ça|cela) vous fait|merci de partager|como isso te faz sentir|obrigad[oa] por compartilhar)", re.I)
 
 
 class InterpretationError(Exception):
@@ -98,6 +102,7 @@ def question_metrics(question: str, dialogue: dict) -> dict:
         "introduced_vocabulary": sorted({w for w in qwords if w in vocab and w not in said}),
         "introduced_positions": sorted({w for w in qwords if w in pos_names and w not in said}),
         "echo": sorted({w for w in qwords if w in last_words}),
+        "therapeutic": sorted({m.group(0).lower() for m in THERAPY_RE.finditer(question)}),
     }
 
 
@@ -113,6 +118,8 @@ def turn_errors(turn: dict, dialogue: dict) -> list[str]:
             errs.append("more than one question")
         if m["leaks"]:
             errs.append(f"question names what must stay hidden: {m['leaks']}")
+        if m["therapeutic"]:
+            errs.append(f"therapeutic register, not the diagrams' voice: {m['therapeutic']}")
         if len(m["introduced_vocabulary"]) >= 2:
             errs.append(f"question offers feeling words the visitor never said: {m['introduced_vocabulary']}")
         asked = {e["question"].strip().lower() for e in dialogue["exchanges"]}
@@ -232,9 +239,11 @@ def _run(kind: str, dialogue: dict, budget: float, meta: dict | None) -> dict:
             out = provider.call(kind, system, msg, tool, tool_schema, remaining, context={"dialogue": dialogue})
         except llm.LLMTimeout as e:
             raise InterpretationError(f"{kind}: timeout ({e})") from e
-        except llm.LLMError as e:
+        except Exception as e:  # noqa: BLE001  a provider bug must never crash the orchestrator
+            if not isinstance(e, llm.LLMError):
+                e = llm.LLMError(f"{type(e).__name__}: {e}")
             info["errors"].append(f"provider: {e}")
-            if attempt == 2 or deadline - time.monotonic() < MIN_RETRY_S[kind]:
+            if attempt == 2 or isinstance(e, llm.LLMAuthError) or deadline - time.monotonic() < MIN_RETRY_S[kind]:
                 raise InterpretationError(f"{kind}: provider error: {e}") from e
             continue
         if kind == "ask":

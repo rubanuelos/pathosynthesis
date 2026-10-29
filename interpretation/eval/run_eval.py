@@ -10,7 +10,8 @@ Each file in eval/dialogues/ is a scripted visitor: up to 5 answers given in ord
   opening question from questions.json -> answer -> next_turn -> ... -> compose
   - silence on the opening: re-ask once, then the visitor leaves (idle)
   - bounds 2..5 questions: compose before 2 -> next fallback probe; 5 answered -> compose
-  - next_turn error/timeout -> next fallback probe; compose error -> "FALLBACK SCORE"
+  - next_turn error/timeout (rev 3): interpretation is no longer relied on this session; a probe only if fewer
+    than 2 answered, otherwise straight to compose. compose error -> "FALLBACK SCORE"
   - the model asks but the script has no answers left -> logged as script_exhausted, then compose
 Outputs, in eval/runs/<timestamp>_<provider>/:
   <id>.json      full log: every question (source, metrics), turn, hypothesis, score, warnings, latencies
@@ -45,7 +46,7 @@ def simulate(script: dict) -> dict:
     log = {"id": script["id"], "lang": script["lang"], "style": script.get("style", ""), "about": script.get("about", ""),
            "expect": script.get("expect", {}), "questions": [], "events": [], "turn_latency_s": [], "outcome": None}
     question, source = qb["opening"], "opening"
-    probe_i, ai, reasked = 0, 0, False
+    probe_i, ai, reasked, interp_down = 0, 0, False, False
 
     while True:
         if ai >= len(answers):
@@ -72,11 +73,18 @@ def simulate(script: dict) -> dict:
         if n >= I.MAX_QUESTIONS:
             log["events"].append({"bound": "5 answered, compose"})
             break
+        if interp_down:                      # §2.2.6: after a failure, at most a probe to reach 2, then compose
+            if n >= 2:
+                break
+            question, source = qb["probes"][min(probe_i, len(qb["probes"]) - 1)], "probe (interpretation down)"
+            probe_i += 1
+            continue
         meta: dict = {}
         try:
             turn = I.next_turn(dialogue, meta=meta)
         except I.InterpretationError as e:
             turn = None
+            interp_down = True
             log["events"].append({"after": n, "next_turn_error": str(e)[:300]})
         if meta.get("latency_s") is not None:
             log["turn_latency_s"].append(meta["latency_s"])
@@ -87,6 +95,8 @@ def simulate(script: dict) -> dict:
         if turn and turn["action"] == "ask":
             question, source = turn["question"], "llm"
         elif turn and turn["action"] == "compose" and n >= 2:
+            break
+        elif turn is None and n >= 2:
             break
         else:
             reason = "error/timeout" if turn is None else "compose before 2"
@@ -192,6 +202,9 @@ def summary_md(logs, provider, model_ask, model_compose):
         f"- Generated questions: {len(qs)}; with an echo of the visitor's last answer: {sum(1 for q in qs if q['metrics']['echo'])}; "
         f"introducing vocabulary words: {sum(1 for q in qs if q['metrics']['introduced_vocabulary'])}; "
         f"introducing position names: {sum(1 for q in qs if q['metrics']['introduced_positions'])}; leaks: {sum(1 for q in qs if q['metrics']['leaks'])}",
+        f"- Words per generated question: {statistics.mean([q['metrics']['words'] for q in qs]) if qs else float('nan'):.1f} on average, "
+        f"max {max([q['metrics']['words'] for q in qs], default=0)}; therapeutic phrasing: {sum(1 for q in qs if q['metrics'].get('therapeutic'))}",
+        f"- Visitors by number of questions: " + ", ".join(f"{k}: {nq.count(k)}" for k in sorted(set(nq))),
         f"- Fallback probes used: {sum(1 for l in logs for q in l['questions'] if q['source'].startswith('probe'))}; "
         f"fallback scores: {sum(1 for l in logs if l['outcome'] != 'score' and not str(l['outcome']).startswith('idle'))}",
         f"- next_turn latency p50 {pct(lat_t, .5):.1f} s, p95 {pct(lat_t, .95):.1f} s (budget {I.TURN_BUDGET_S:.0f} s) · "
@@ -204,6 +217,11 @@ def summary_md(logs, provider, model_ask, model_compose):
         "|---|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     lines += [row(l) for l in logs]
+    lines += ["", "## Read aloud", "", "Every question each visitor heard, in order.", ""]
+    for l in logs:
+        lines.append(f"**{l['id']}** ({len(l['questions'])})")
+        lines += [f"{q['n']}. {q['question']}" for q in l["questions"]]
+        lines.append("")
     lines += ["", "## Transcripts", ""]
     lines += [transcript_md(l) for l in logs]
     return "\n".join(lines) + "\n"
@@ -216,10 +234,11 @@ def main(argv=None):
     ap.add_argument("--repeat", type=int, default=1, help="run each dialogue N times (variance)")
     ap.add_argument("--out", help="output folder (default eval/runs/<timestamp>_<provider>)")
     a = ap.parse_args(argv)
+    from interpretation import llm
+    llm.load_dotenv()
     if a.provider:
         os.environ["PATHOS_LLM"] = a.provider
     provider = os.environ.get("PATHOS_LLM", "anthropic")
-    from interpretation import llm
     try:
         m_ask, m_comp = llm.model_for("ask", provider), llm.model_for("compose", provider)
     except llm.LLMError as e:

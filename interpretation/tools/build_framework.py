@@ -86,7 +86,7 @@ ACTIVE["habit-build"] = dict(
         release="toward action: one act discharges what the ring holds",
         transmute="from habit or nature inward to intention: the same energy becomes a choice again",
     ),
-    probes=["What does your body do when it comes?", "Is this new, or has it been with you a long time?", "What happens just before it starts?"],
+    probes=["What does the body do, unasked?", "Is it new, or does it return?", "What comes just before it?"],
 )
 
 ACTIVE["fate-engage"] = dict(
@@ -121,7 +121,7 @@ ACTIVE["fate-engage"] = dict(
         release="through the point: pressure, then the arrow (point to destiny)",
         transmute="fate to destiny: what happened to you becomes the direction you take",
     ),
-    probes=["Did this come to you, or did you go toward it?", "What has to happen next?", "If it were only up to you, what would you do?"],
+    probes=["Did it come to you, or did you go to it?", "Whose hand is on it?", "Which way is it leaning?"],
 )
 
 MYST_VERTICES = ["mystery", "desire", "vulnerability", "hope", "absence"]
@@ -177,7 +177,7 @@ ACTIVE["mystery-engage"] = dict(
         release="from a star line outward to a side, then a vertex: the knot opens",
         transmute="along a shared vertex: keep one ingredient, change the other",
     ),
-    probes=["Who or what is not here right now?", "What are you waiting for?", "If you could reach for something now, what would it be?"],
+    probes=["Who is missing from this?", "How long is the wait?", "What would the hands reach for?"],
 )
 
 DIAGRAM_CHOICE = OrderedDict(
@@ -398,7 +398,7 @@ for did, a in active_out.items():
         md.append(f"| **{name}** | {lvl} | {p['meaning']} | {p['felt']} | {'; '.join(p['cues'])} | {', '.join(p['emotions'])} | {', '.join(p['neighbours'])} |")
     md += ["", "**Trajectories in this diagram**", ""]
     md += [f"- `{k}`: {v}" for k, v in a["trajectories"].items()]
-    md += ["", "**Questions that tell positions apart** (examples of the kind; the live questions are generated from the visitor's own words)", ""]
+    md += ["", "**Questions that tell positions apart** (examples of the kind and the voice; the live questions are generated from the visitor's own words)", ""]
     md += [f"- {q}" for q in a["probes"]]
     md.append("")
 md += ["## Choosing a diagram", "", DIAGRAM_CHOICE["principle"], "", "| | habit-build | fate-engage | mystery-engage |", "|---|---|---|---|"]

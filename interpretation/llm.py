@@ -7,6 +7,7 @@ Env:
   PATHOS_LLM                  provider (default: anthropic)
   PATHOS_MODEL_ASK            model for next_turn   (anthropic default: claude-sonnet-5-5)
   PATHOS_MODEL_COMPOSE        model for compose     (anthropic default: claude-sonnet-5-5)
+  PATHOS_EFFORT_ASK / _COMPOSE anthropic effort, low|medium|high (defaults: low / medium); thinking is off
   ANTHROPIC_API_KEY / OPENAI_API_KEY   as usual for those SDKs
   OLLAMA_HOST                 default http://127.0.0.1:11434
 
@@ -27,12 +28,35 @@ class LLMError(Exception):
     pass
 
 
+def load_dotenv(path=None) -> None:
+    """Read KEY=VALUE lines from <repo>/.env into os.environ (gitignored; holds ANTHROPIC_API_KEY).
+    Never overrides a variable that is already set. No dependency on python-dotenv."""
+    from pathlib import Path
+    path = Path(path) if path else Path(__file__).resolve().parent.parent / ".env"
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key, value = key.strip().removeprefix("export ").strip(), value.strip().strip('"').strip("'")
+        if key and value and key not in os.environ:
+            os.environ[key] = value
+
+
 class LLMTimeout(LLMError):
     pass
 
 
+class LLMAuthError(LLMError):
+    """Bad or missing key: retrying cannot help."""
+
+
 ANTHROPIC_DEFAULTS = {"ask": "claude-sonnet-5-5", "compose": "claude-sonnet-5-5"}
-TEMPERATURE = {"ask": 0.7, "compose": 0.6}
+TEMPERATURE = {"ask": 0.7, "compose": 0.6}          # openai / ollama only; current Anthropic SDKs have no temperature
+EFFORT = {"ask": os.environ.get("PATHOS_EFFORT_ASK", "low"),           # Anthropic output_config.effort
+          "compose": os.environ.get("PATHOS_EFFORT_COMPOSE", "medium")}
 MAX_TOKENS = {"ask": 400, "compose": 1600}
 
 
@@ -65,6 +89,27 @@ def inline_refs(schema: dict) -> dict:
     return walk(schema)
 
 
+COMBINATORS = ("allOf", "anyOf", "oneOf")
+DEEP_DROP = COMBINATORS + ("if", "then", "else", "not", "prefixItems", "contains", "minContains", "maxContains")
+
+
+def provider_schema(schema: dict, level: int = 1) -> dict:
+    """The schema as sent to a provider's tool definition.
+    level 1: drop top-level allOf/anyOf/oneOf (Anthropic rejects them; the contract uses them for per-diagram `at`
+             and for `question` when asking).
+    level 2: also drop every combinator, conditional and contains-rule at any depth.
+    Nothing is lost: interpret.py validates every reply against the full contract schema and retries with the errors."""
+    def deep(node):
+        if isinstance(node, dict):
+            return {k: deep(v) for k, v in node.items() if k not in DEEP_DROP}
+        if isinstance(node, list):
+            return [deep(x) for x in node]
+        return node
+    if level >= 2:
+        return deep(schema)
+    return {k: v for k, v in schema.items() if k not in COMBINATORS}
+
+
 # ------------------------------------------------------------------ anthropic
 class Anthropic:
     name = "anthropic"
@@ -75,40 +120,89 @@ class Anthropic:
         except ImportError as e:
             raise LLMError("pip install anthropic") from e
         import anthropic
+        if not os.environ.get("ANTHROPIC_API_KEY"):
+            raise LLMError("ANTHROPIC_API_KEY is not set: paste it into <repo>/.env (see .env.example)")
         self._sdk = anthropic
         self._client = anthropic.Anthropic(max_retries=0)
+        self._unsupported: set = set()
+        self._schema_level = 1
+        self._thinking_off = 0          # index into THINKING_OFF
+
+    # Ways to turn thinking off, tried in order: Sonnet 5.5 (the default) rejects "disabled" and wants "between_tools";
+    # older models may reject "between_tools". If both are refused, `thinking` is omitted.
+    THINKING_OFF = ({"type": "between_tools"}, {"type": "disabled"})
+
+    def _create(self, kind, **kw):
+        """messages.create with latency options (thinking off, effort). If the SDK or the model refuses one of them,
+        fall back (next thinking-off form, or drop the option) for the rest of the process and retry."""
+        a = self._sdk
+        tools = kw.pop("tools")
+
+        def send():
+            optional = {"output_config": {"effort": EFFORT[kind]}}
+            if self._thinking_off < len(self.THINKING_OFF):
+                optional["thinking"] = self.THINKING_OFF[self._thinking_off]
+            extras = {k: v for k, v in optional.items() if k not in self._unsupported}
+            ts = [{**t, "input_schema": provider_schema(t["input_schema"], self._schema_level)} for t in tools]
+            return self._client.messages.create(**kw, tools=ts, **extras)
+
+        for _ in range(4):
+            try:
+                return send()
+            except (TypeError, a.BadRequestError) as e:
+                msg = str(e).lower()
+                if "input_schema" in msg and self._schema_level < 2:
+                    self._schema_level = 2
+                elif "thinking" in msg and self._thinking_off < len(self.THINKING_OFF):
+                    self._thinking_off += 1
+                elif "output_config" not in self._unsupported and ("output_config" in msg or "effort" in msg):
+                    self._unsupported.add("output_config")
+                else:
+                    raise
+        return send()
+
+    # Forced tool_choice ("tool"/"any") is a 400 on Sonnet 5.5 and later, so the tool is requested with "auto" plus
+    # an instruction in the system prompt. A reply without a tool_use block raises LLMError, which interpret.py retries.
+    TOOL_CHOICE = {"type": "auto", "disable_parallel_tool_use": True}
+
+    @staticmethod
+    def _system(system, tool_name):
+        return [{"type": "text", "text": f"{system}\n\nRespond only by calling the `{tool_name}` tool, exactly once.",
+                 "cache_control": {"type": "ephemeral"}}]
 
     def call(self, kind, system, user, tool_name, schema, timeout, context=None):
         a = self._sdk
         try:
-            resp = self._client.messages.create(
+            resp = self._create(
+                kind,
                 model=model_for(kind, self.name),
                 max_tokens=MAX_TOKENS[kind],
-                temperature=TEMPERATURE[kind],
-                system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
+                system=self._system(system, tool_name),
                 messages=[{"role": "user", "content": user}],
                 tools=[{"name": tool_name, "description": f"Return the {kind} result.", "input_schema": schema}],
-                tool_choice={"type": "tool", "name": tool_name},
+                tool_choice=self.TOOL_CHOICE,
                 timeout=timeout,
             )
         except a.APITimeoutError as e:
             raise LLMTimeout(str(e)) from e
+        except (a.AuthenticationError, a.PermissionDeniedError) as e:
+            raise LLMAuthError(f"{type(e).__name__}: {e} (check ANTHROPIC_API_KEY in <repo>/.env)") from e
         except a.APIError as e:
             raise LLMError(f"{type(e).__name__}: {e}") from e
         for block in resp.content:
             if block.type == "tool_use":
                 return block.input
-        raise LLMError("no tool_use block in response")
+        raise LLMError(f"no tool_use block in response (stop_reason={getattr(resp, 'stop_reason', '?')})")
 
     def warm(self, kind, system, tool_name, schema):
         """Prime the prompt cache (system + tool) with a 1-token request. Best effort; errors are ignored."""
         try:
-            self._client.messages.create(
-                model=model_for(kind, self.name), max_tokens=1,
-                system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
+            self._create(
+                kind, model=model_for(kind, self.name), max_tokens=1,
+                system=self._system(system, tool_name),
                 messages=[{"role": "user", "content": "warm-up"}],
                 tools=[{"name": tool_name, "description": f"Return the {kind} result.", "input_schema": schema}],
-                tool_choice={"type": "tool", "name": tool_name}, timeout=15)
+                tool_choice=self.TOOL_CHOICE, timeout=15)
         except Exception:  # noqa: BLE001
             pass
 
@@ -184,10 +278,12 @@ class Stub:
         guess = self._guess(dialogue, prompts)
         if kind == "ask":
             n = len(dialogue["exchanges"])
-            if n >= 3:
-                return {"action": "compose", "planned_questions": 3, "hypothesis": {**guess, "confidence": "medium", "unknown": "nothing essential"}}
+            ok = [e["answer"] for e in dialogue["exchanges"] if e["status"] == "ok"]
+            guarded = len(ok) < n or sum(len(a.split()) for a in ok) / max(1, len(ok)) < 4
+            if n >= (3 if guarded else 2):       # prompt policy: default 2, a third only for guarded answers
+                return {"action": "compose", "planned_questions": n, "hypothesis": {**guess, "confidence": "medium", "unknown": "nothing essential"}}
             probes = prompts.lang_block(dialogue.get("lang"))["probes"]
-            return {"action": "ask", "question": probes[min(n - 1, len(probes) - 1)], "planned_questions": 3,
+            return {"action": "ask", "question": probes[min(n - 1, len(probes) - 1)], "planned_questions": 3 if guarded else 2,
                     "hypothesis": {**guess, "confidence": "low", "unknown": "stub: generic probe"}}
         return self._score(dialogue, guess, prompts)
 
@@ -261,6 +357,7 @@ _cache: dict = {}
 
 
 def get_provider(name: str | None = None):
+    load_dotenv()
     name = (name or os.environ.get("PATHOS_LLM") or "anthropic").lower()
     if name not in PROVIDERS:
         raise LLMError(f"unknown PATHOS_LLM={name}; one of {sorted(PROVIDERS)}")

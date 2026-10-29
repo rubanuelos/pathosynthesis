@@ -8,30 +8,28 @@ host = "127.0.0.1"
 port = 8010
 
 [output]
-device = ""            # e.g. "Scarlett" — the shared 2-ch interface SuperCollider also uses
+device = "External Headphones"            # e.g. "Scarlett" — the shared 2-ch interface SuperCollider also uses
 channel = 2            # R = 8" speaker under the water. Channel 1 (L, chair) is refused in code.
 samplerate = 48000     # = SuperCollider's s.options.sampleRate
 peak_dbfs = -6.0
-gain_db = 0.0          # set at install, by ear, with the room full
+gain_db = -9.0         # -9 dB ≈ 0.35× amplitude (voice was ~65% too loud vs SC, 10/28). Set at install, by ear, with the room full
 max_peak_dbfs = -1.0
 fade_ms = 15.0
 listen_cue = ""        # optional WAV after each question, e.g. "voice/cues/listen.wav"
 
 [input]
-device = ""            # mic near the object
+device = "MacBook Pro Microphone"            # mic near the object
 channel = 1
 samplerate = 48000
 gain_db = 0.0
 
 [tts]
-engine = "say"         # "say" (macOS) | "piper"
+engine = "piper"         # "say" (macOS) | "piper"
 default_lang = "en"
-rate_wpm = 160
-# The voice is an artistic choice for the team. `say -v '?'` lists installed voices;
-# premium/enhanced voices sound far better (System Settings > Accessibility > Spoken Content).
-voices = { en = "Samantha", es = "Paulina" }
-# piper_models = { en = "voice/models/en_US-lessac-medium.onnx", es = "voice/models/es_MX-claude-high.onnx" }
-piper_length_scale = 1.0
+rate_wpm = 80
+voices = { en = "Zoe (Premium)", es = "Paulina" }
+piper_models = { en = "voice/models/en_GB-jenny_dioco-medium.onnx", es = "voice/models/es_MX-claude-high.onnx" }
+piper_length_scale = 1.2
 cache_size = 32
 
 [listen]
@@ -46,7 +44,7 @@ preroll_s = 0.4
 tail_s = 0.3
 
 [stt]
-model = "small"            # try "medium" or "large-v3-turbo" if latency allows
+model = "large-v3-turbo"            # try "medium" or "large-v3-turbo" if latency allows
 device = "cpu"
 compute_type = "int8"
 beam_size = 5

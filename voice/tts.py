@@ -105,9 +105,16 @@ class PiperTTS(TTS):
         model = self._voice_key(lang)
         if not model:
             raise RuntimeError(f"no piper model for '{lang}' or default; set tts.piper_models")
-        cmd = [self.cfg.piper_bin, "--model", model, "--output_file", str(wav_path),
-               "--length_scale", str(self.cfg.piper_length_scale)]
-        proc = subprocess.run(cmd, input=text, capture_output=True, text=True,
+        # piper-tts (piper1-gpl) CLI: `piper -m MODEL -f OUT.wav --length-scale X -i TEXT.txt`.
+        # Not `-- text`: piper reads trailing args with parse_known_args, which
+        # keeps the `--` (Python 3.11-3.13), so it would be spoken. Bare trailing
+        # args break on text starting with '-'. An input file is safe for any
+        # text; one line = one utterance (piper synthesizes per line).
+        txt = wav_path.with_suffix(".txt")
+        txt.write_text(" ".join(text.split()) + "\n", encoding="utf-8")
+        cmd = [self.cfg.piper_bin, "-m", model, "-f", str(wav_path),
+               "--length-scale", str(self.cfg.piper_length_scale), "-i", str(txt)]
+        proc = subprocess.run(cmd, stdin=subprocess.DEVNULL, capture_output=True, text=True,
                               timeout=RENDER_TIMEOUT_S)
         if proc.returncode != 0:
             raise RuntimeError(f"piper failed: {proc.stderr.strip()[-400:]}")

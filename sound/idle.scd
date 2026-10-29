@@ -9,8 +9,6 @@ s.waitForBoot {
     ~fxGroup  = Group.after(~srcGroup);
     s.sync;
 
-};
-
 SynthDef(\chanGuard, { |in, out, hpf = 20, maxAmp = 0.5|
     var sig = In.ar(in, 1);
     sig = LeakDC.ar(sig);
@@ -73,7 +71,7 @@ SynthDef(\idleCrackle, { |out, density = 30, amp = 0.48, hiss = 0.004,
             Synth(\chanGuard, [in: ~roomBus,  out: ~ch.room,  hpf: 30, maxAmp: 0.5], ~fxGroup)
         ]};
         ~idlePad   = Synth(\idleChairPad, [out: ~chairBus], ~srcGroup);
-        ~idleTone  = Synth(\idleRoomTone, [out: ~roomBus],  ~srcGroup);
+        // ~idleTone  = Synth(\idleRoomTone, [out: ~roomBus],  ~srcGroup);   // SynthDef commented out above
         ~idleCrack = Synth(\idleCrackle,  [out: ~roomBus],  ~srcGroup);
         ~idleRoutine = ~idleSeq.().play(SystemClock);
         "idle: on".postln;
@@ -88,7 +86,6 @@ SynthDef(\idleCrackle, { |out, density = 30, amp = 0.48, hiss = 0.004,
         "idle: off".postln;
     };
 };
-)
 
 // FOLLOWS ORCHESTRATOR'S STATE
 OSCdef(\idleState, { |msg|
@@ -99,7 +96,9 @@ OSCdef(\idlePanic, { ~idleStop.(0.5) }, '/pathos/panic');
 
 "idle: server ready".postln;
 };
+)
 
+/* Test tail (select a line and evaluate in the IDE; never runs on load):
 s.meter;
 s.scope(2);
 
@@ -108,5 +107,6 @@ s.scope(2);
 
 n = NetAddr.localAddr; n.sendMsg('/pathos/state', \idle);
 n.sendMsg('/pathos/state', \mirror); // fade out
+*/
 
 
