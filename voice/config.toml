@@ -8,11 +8,11 @@ host = "127.0.0.1"
 port = 8010
 
 [output]
-device = "External Headphones"            # e.g. "Scarlett" — the shared 2-ch interface SuperCollider also uses
+device = "External Headphones"            # e.g. "External Headphoens" — the shared 2-ch interface SuperCollider also uses
 channel = 2            # R = 8" speaker under the water. Channel 1 (L, chair) is refused in code.
 samplerate = 48000     # = SuperCollider's s.options.sampleRate
-peak_dbfs = -6.0
-gain_db = -9.0         # -9 dB ≈ 0.35× amplitude (voice was ~65% too loud vs SC, 10/28). Set at install, by ear, with the room full
+peak_dbfs = -9.0
+gain_db = -14.0         # Limiter important
 max_peak_dbfs = -1.0
 fade_ms = 15.0
 listen_cue = ""        # optional WAV after each question, e.g. "voice/cues/listen.wav"
@@ -21,10 +21,17 @@ listen_cue = ""        # optional WAV after each question, e.g. "voice/cues/list
 device = "MacBook Pro Microphone"            # mic near the object
 channel = 1
 samplerate = 48000
-gain_db = 0.0
+gain_db = 0.5
 
 [tts]
-engine = "piper"         # "say" (macOS) | "piper"
+engine = "kokoro"      # "kokoro" (team choice, bake-off 2026-10-29) | "say" (macOS) | "piper"
+fallback = "piper"     # speaks if kokoro can't start or a render fails ("" = none)
+warmth_db = -3.0       # gentle high-shelf cut above ~4.5 kHz (softer sibilants); 0 = off
+# Kokoro-82M runs in its own venv: bash voice/bakeoff_setup.sh mlx
+# Audition without editing: python -m voice.check speak "Do you carry it?" --speed 0.78 --voice af_heart,af_nicole
+kokoro_voices = { en = "af_heart,af_nicole", es = "ef_dora" }   # "a,b" averages two voices, e.g. "af_heart,af_nicole" (softer)
+kokoro_speed = { en = 0.75, es = 0.75 }               # 1.0 = Kokoro's normal pace (the bake-off used 0.92)
+kokoro_pause_s = 0.55  # silence between sentences in one question ("Years of it. | What…?")
 default_lang = "en"
 rate_wpm = 80
 voices = { en = "Zoe (Premium)", es = "Paulina" }

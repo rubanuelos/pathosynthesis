@@ -52,8 +52,18 @@ class InputCfg:
 
 @dataclass
 class TTSCfg:
-    engine: str = "say"           # "say" (macOS, offline) | "piper" (offline neural)
+    engine: str = "kokoro"        # "kokoro" (team choice) | "say" (macOS) | "piper"
+    fallback: str | None = "say"  # speaks if kokoro can't start or a render fails; None = no fallback
     default_lang: str = "en"
+    warmth_db: float = 0.0        # high-shelf above ~4.5 kHz, all engines; e.g. -3 softens sibilants
+    # Kokoro-82M (mlx-audio) — runs in its own venv: `bash voice/bakeoff_setup.sh mlx`
+    kokoro_python: str = "voice/.venvs/mlx/bin/python"  # relative to the repo root
+    kokoro_repo: str = "prince-canuma/Kokoro-82M"
+    # Voice per language. A comma list averages voices, e.g. "af_heart,af_nicole" (softer).
+    kokoro_voices: dict[str, str] = field(default_factory=lambda: {"en": "af_heart", "es": "ef_dora"})
+    kokoro_speed: dict[str, float] = field(default_factory=lambda: {"en": 0.82, "es": 0.85})
+    kokoro_pause_s: float = 0.55  # silence between sentences inside one question
+    kokoro_start_timeout_s: float = 240.0  # first run downloads the model (~0.3 GB)
     # Voice per language. The voice is part of the piece: the team chooses.
     voices: dict[str, str] = field(default_factory=lambda: {"en": "Samantha", "es": "Paulina"})
     rate_wpm: int | None = 160    # `say -r`; None = voice default
