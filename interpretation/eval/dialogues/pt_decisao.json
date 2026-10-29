@@ -1,0 +1,16 @@
+{
+  "id": "pt_decisao",
+  "lang": "pt",
+  "style": "Portuguese, deciding",
+  "about": "about to end a relationship, rehearsing it every day",
+  "answers": [
+    "Estou dividida. Acho que vou terminar com ele, mas ainda não disse nada.",
+    "Há meses. Toda vez que ele chega em casa eu ensaio o que vou dizer e não digo.",
+    "Quero ter coragem. Dizer de uma vez.",
+    "No peito. Como se eu estivesse prendendo a respiração."
+  ],
+  "expect": {
+    "diagram": "fate-engage or habit-build",
+    "trajectory": "release"
+  }
+}

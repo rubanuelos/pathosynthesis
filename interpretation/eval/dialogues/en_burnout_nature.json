@@ -1,0 +1,17 @@
+{
+  "id": "en_burnout_nature",
+  "lang": "en",
+  "style": "slow, identity",
+  "about": "years of holding everything together",
+  "answers": [
+    "Exhausted. Not today exhausted. Years exhausted.",
+    "I've always been the one who holds everything together. My mum was like that too. It's just how we are.",
+    "Somewhere to put it down. Even for a minute.",
+    "My shoulders. They're always up by my ears."
+  ],
+  "expect": {
+    "diagram": "habit-build",
+    "trajectory": "dissolve",
+    "length": "long"
+  }
+}

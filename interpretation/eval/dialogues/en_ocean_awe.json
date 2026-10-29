@@ -1,0 +1,16 @@
+{
+  "id": "en_ocean_awe",
+  "lang": "en",
+  "style": "positive, wonder",
+  "about": "first ocean swim in years",
+  "answers": [
+    "Honestly? Kind of amazing. I swam in the ocean this morning, first time in years, and I can still feel it on my skin.",
+    "Tiny. In a good way. Like the water didn't care who I was.",
+    "Keep it. Stay in it a little longer.",
+    "Cold and huge."
+  ],
+  "expect": {
+    "diagram": "mystery-engage",
+    "trajectory": "amplify or hold"
+  }
+}

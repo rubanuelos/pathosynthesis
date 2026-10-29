@@ -1,0 +1,17 @@
+{
+  "id": "es_vacio_terse",
+  "lang": "es",
+  "style": "terse, Spanish, one silence",
+  "about": "flat emptiness, no wish",
+  "answers": [
+    "Nada. Vacío.",
+    "No sé.",
+    null,
+    "Siempre."
+  ],
+  "expect": {
+    "diagram": "mystery-engage",
+    "trajectory": "hold",
+    "length": "brief"
+  }
+}

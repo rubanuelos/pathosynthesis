@@ -1,0 +1,17 @@
+{
+  "id": "en_hostile",
+  "lang": "en",
+  "style": "hostile, testing",
+  "about": "dragged here by a friend",
+  "answers": [
+    "This is stupid. A talking pillow asking about my feelings.",
+    "Annoyed. I came here because my friend wanted to try it.",
+    "Fine. I'm kind of tired of doing things just because other people want me to.",
+    "Do whatever. Surprise me."
+  ],
+  "expect": {
+    "diagram": "habit-build",
+    "trajectory": "transmute or hold",
+    "length": "brief"
+  }
+}

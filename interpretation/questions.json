@@ -1,0 +1,47 @@
+{
+  "contract_version": "0.3",
+  "about": "Fixed questions for the voice questionnaire (contract §2.2). `opening` is always the first question. `reask` is used once if the opening gets silence. `probes` are used in order when next_turn times out or fails, or when the orchestrator must ask but the turn said compose (fewer than 2 answered). Probes are generic on purpose: they never name a diagram, a position or an emotion, and each aims at one thing the score needs (body -> mirror, intention -> trajectory, time -> diagram, others/manner -> position). Every entry is <= 25 words.",
+  "default_lang": "en",
+  "languages": {
+    "en": {
+      "opening": "What are you feeling right now that you don't have a right word for?",
+      "reask": "Take your time. What is here with you right now?",
+      "probes": [
+        "Where in your body do you notice it most, right now?",
+        "If you could do one thing with this feeling, here, now, what would it be?",
+        "How long has it been with you?",
+        "How do you carry it when other people are around?"
+      ]
+    },
+    "es": {
+      "opening": "¿Qué estás sintiendo ahora mismo para lo que no tienes la palabra justa?",
+      "reask": "Tómate tu tiempo. ¿Qué está aquí contigo ahora?",
+      "probes": [
+        "¿En qué parte del cuerpo lo notas más, ahora mismo?",
+        "Si pudieras hacer una sola cosa con esto, aquí y ahora, ¿qué sería?",
+        "¿Desde cuándo está contigo?",
+        "¿Cómo lo llevas cuando hay otras personas alrededor?"
+      ]
+    },
+    "fr": {
+      "opening": "Qu'est-ce que vous ressentez en ce moment, sans avoir le mot juste pour le dire ?",
+      "reask": "Prenez votre temps. Qu'est-ce qui est là avec vous, maintenant ?",
+      "probes": [
+        "Où le sentez-vous le plus dans votre corps, en ce moment ?",
+        "Si vous pouviez faire une seule chose avec ce sentiment, ici, maintenant, que feriez-vous ?",
+        "Depuis combien de temps est-il avec vous ?",
+        "Comment le portez-vous quand d'autres personnes sont là ?"
+      ]
+    },
+    "pt": {
+      "opening": "O que você está sentindo agora para o qual não tem a palavra certa?",
+      "reask": "Sem pressa. O que está aqui com você agora?",
+      "probes": [
+        "Em que parte do corpo você sente isso mais, agora?",
+        "Se você pudesse fazer uma só coisa com esse sentimento, aqui e agora, o que seria?",
+        "Há quanto tempo isso está com você?",
+        "Como você carrega isso quando há outras pessoas por perto?"
+      ]
+    }
+  }
+}

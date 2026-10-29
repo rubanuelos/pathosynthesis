@@ -1,0 +1,11 @@
+{
+  "contract_version": "0.3",
+  "session_id": "sample-0001",
+  "lang": "en",
+  "exchanges": [
+    {"question": "What are you feeling right now that you don't have a right word for?",
+     "answer": "Like I'm stuck on repeat. I keep saying yes to everyone and then hating myself at night.", "status": "ok", "speech_s": 6.8},
+    {"question": "When you say yes, what does your body do?",
+     "answer": "My shoulders go up. I smile. I always smile.", "status": "ok", "speech_s": 4.1}
+  ]
+}

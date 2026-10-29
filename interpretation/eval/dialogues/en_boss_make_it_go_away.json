@@ -1,0 +1,17 @@
+{
+  "id": "en_boss_make_it_go_away",
+  "lang": "en",
+  "style": "terse, angry, 'make it go away'",
+  "about": "public humiliation at work",
+  "answers": [
+    "Angry. My boss humiliated me in front of the whole team today.",
+    "My jaw. My hands. My face is hot.",
+    "Make it go away.",
+    "I don't know. I just don't want to carry it home."
+  ],
+  "expect": {
+    "diagram": "fate-engage",
+    "trajectory": "release or dissolve",
+    "length": "brief"
+  }
+}

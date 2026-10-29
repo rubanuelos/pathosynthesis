@@ -1,0 +1,17 @@
+{
+  "id": "en_father_grief_rambling",
+  "lang": "en",
+  "style": "rambling, grief",
+  "about": "a year of grief; does not want it to stop",
+  "answers": [
+    "It's been eleven months since my dad died and everyone thinks I should be okay by now, and some days I am, I go to work, I laugh at things, and then I'll be in the supermarket and see the cereal he used to eat and I just have to leave the cart there and go sit in the car.",
+    "Mostly in my throat. Like something stuck there that won't go up or down. And my arms feel heavy, like I've been carrying boxes all day.",
+    "I don't want it to stop, honestly. If it stops it means he's further away. I just want to be able to sit with it without having to leave the cart.",
+    "Yes. Just sit with him for a bit."
+  ],
+  "expect": {
+    "diagram": "mystery-engage",
+    "trajectory": "hold",
+    "length": "long"
+  }
+}

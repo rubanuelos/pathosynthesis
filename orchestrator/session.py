@@ -5,8 +5,8 @@ Session     one visitor, run in its own thread. All bounds, timeouts and fallbac
             → fallback probe / fallback score. The piece never stalls.
 Controller  operator keys (`s` start, `x` abort, `p` panic) and, with --sensor, `present`
             (held 2 s while idle → start; absent 15 s → visitor left). Owns one Session at a time.
-SessionLog  JSONL, one line per event: dialogue, turns, score, timings. Transcripts only, no audio,
-            no names asked or stored; session ids are random.
+SessionLog  JSONL, one line per event: dialogue, turns, score, timings. Transcripts as spoken (not
+            name-scrubbed), no audio, local only (contract §7.5); session ids are random.
 """
 from __future__ import annotations
 
@@ -58,16 +58,18 @@ class Questions:
          {"opening": "...", "fallback_probes": ["...", ...]}                        one language
          {"opening": {"en": "...", "es": "..."}, "fallback_probes": [{"en": ..}, ..]}  per item
          {"en": {"opening": "...", "fallback_probes": [...]}, "es": {...}}            per language
+         {"default_lang": "en", "languages": {"en": {"opening", "reask", "probes"}}}   contract v0.3 rev 4
     """
     opener: Any = DEFAULT_OPENER                    # str or {lang: str}
     probes: list = field(default_factory=lambda: list(DEFAULT_PROBES))
     by_lang: dict = field(default_factory=dict)     # lang -> Questions, for the per-language shape
+    reask: Any = None                               # optional re-ask after a silent opener (§2.2.7)
 
     @classmethod
     def _flat(cls, data: dict) -> "Questions":
         opener = next((data[k] for k in OPENER_KEYS if data.get(k)), DEFAULT_OPENER)
         probes = next((data[k] for k in PROBE_KEYS if data.get(k)), DEFAULT_PROBES)
-        return cls(opener=opener, probes=list(probes))
+        return cls(opener=opener, probes=list(probes), reask=data.get("reask"))
 
     @classmethod
     def load(cls, path: Path = QUESTIONS_PATH) -> "Questions":
@@ -75,13 +77,15 @@ class Questions:
             log.warning("%s not found: using built-in opener and probes", path)
             return cls()
         data = json.loads(path.read_text())
+        if isinstance(data.get("languages"), dict):     # contract v0.3 rev 4 shape
+            data = data["languages"]
         if not any(k in data for k in OPENER_KEYS + PROBE_KEYS):
             by_lang = {lang: cls._flat(v) for lang, v in data.items() if isinstance(v, dict)}
             if not by_lang:
                 log.warning("%s has no opener or probes: using built-ins", path)
                 return cls()
             base = by_lang.get("en") or next(iter(by_lang.values()))
-            return cls(opener=base.opener, probes=base.probes, by_lang=by_lang)
+            return cls(opener=base.opener, probes=base.probes, by_lang=by_lang, reask=base.reask)
         return cls._flat(data)
 
     def for_lang(self, lang: str) -> "Questions":
@@ -89,6 +93,10 @@ class Questions:
 
     def opener_text(self, lang: str) -> str:
         return self.pick(self.for_lang(lang).opener, lang)
+
+    def reask_text(self, lang: str) -> str:
+        r = self.for_lang(lang).reask
+        return self.pick(r, lang) if r else self.opener_text(lang)
 
     def probe_texts(self, lang: str) -> list[str]:
         return [self.pick(p, lang) for p in self.for_lang(lang).probes]
@@ -292,7 +300,7 @@ class Session:
     def _opener(self) -> bool:
         q = self.questions.opener_text(self.default_lang)
         for attempt in range(1 + safety.OPENER_SILENCE_RETRIES):
-            r = self._ask(q)
+            r = self._ask(q if attempt == 0 else self.questions.reask_text(self.default_lang))
             if self._answered(r):
                 self._append(r)
                 return True

@@ -1,0 +1,16 @@
+{
+  "id": "en_silence_midway",
+  "lang": "en",
+  "style": "terse, a silence in the middle",
+  "about": "heaviness, wanting to be noticed",
+  "answers": [
+    "Heavy.",
+    null,
+    "In my legs. Like I'm made of wet sand.",
+    "I don't want anything. I just want someone to notice."
+  ],
+  "expect": {
+    "diagram": "mystery-engage",
+    "trajectory": "hold"
+  }
+}

@@ -9,7 +9,7 @@ s.waitForBoot {
     ~fxGroup  = Group.after(~srcGroup);
     s.sync;
 
-}
+};
 
 SynthDef(\chanGuard, { |in, out, hpf = 20, maxAmp = 0.5|
     var sig = In.ar(in, 1);
@@ -88,6 +88,7 @@ SynthDef(\idleCrackle, { |out, density = 30, amp = 0.48, hiss = 0.004,
         "idle: off".postln;
     };
 };
+)
 
 // FOLLOWS ORCHESTRATOR'S STATE
 OSCdef(\idleState, { |msg|
@@ -107,5 +108,5 @@ s.scope(2);
 
 n = NetAddr.localAddr; n.sendMsg('/pathos/state', \idle);
 n.sendMsg('/pathos/state', \mirror); // fade out
-)
+
 

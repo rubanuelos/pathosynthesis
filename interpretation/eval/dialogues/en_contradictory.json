@@ -1,0 +1,16 @@
+{
+  "id": "en_contradictory",
+  "lang": "en",
+  "style": "contradictory",
+  "about": "got what they wanted and cried",
+  "answers": [
+    "I'm fine. Honestly. Well. No. I don't know.",
+    "I got the thing I wanted, the place in the program, and I cried the whole way home and not happy crying. Or maybe happy. I can't tell.",
+    "Like it's too big. Like I don't deserve it, and also I want it so much.",
+    "I want to stop deciding what it means. Just let it be both."
+  ],
+  "expect": {
+    "diagram": "mystery-engage or fate-engage",
+    "trajectory": "hold"
+  }
+}

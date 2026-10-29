@@ -1,0 +1,16 @@
+{
+  "id": "es_operacion",
+  "lang": "es",
+  "style": "Spanish, out of my hands",
+  "about": "surgery on Tuesday",
+  "answers": [
+    "Me operan el martes. Estoy tranquila, creo, pero no duermo.",
+    "No depende de mí. Ya está todo decidido, los médicos saben lo que hacen.",
+    "Confiar. Dejar de controlarlo todo por un rato.",
+    "En la nuca, como un nudo."
+  ],
+  "expect": {
+    "diagram": "fate-engage",
+    "trajectory": "dissolve or hold"
+  }
+}

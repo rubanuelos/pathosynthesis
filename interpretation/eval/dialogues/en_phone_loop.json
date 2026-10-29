@@ -1,0 +1,16 @@
+{
+  "id": "en_phone_loop",
+  "lang": "en",
+  "style": "plain, a loop",
+  "about": "night-time scrolling",
+  "answers": [
+    "I keep picking up my phone. Like right now I want to check it. I don't even know what I'm looking for.",
+    "Every night. In bed. Hours. Then I'm wrecked in the morning.",
+    "I want my nights back.",
+    "Put it in another room, I guess. And actually sleep."
+  ],
+  "expect": {
+    "diagram": "habit-build",
+    "trajectory": "dissolve or transmute"
+  }
+}

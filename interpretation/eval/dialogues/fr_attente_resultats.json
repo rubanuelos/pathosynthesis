@@ -1,0 +1,16 @@
+{
+  "id": "fr_attente_resultats",
+  "lang": "fr",
+  "style": "French, waiting",
+  "about": "waiting for medical results on Thursday",
+  "answers": [
+    "De l'attente. J'attends des résultats d'examens, je les aurai jeudi.",
+    "Dans le ventre. Ça serre, puis ça se relâche, puis ça serre encore.",
+    "J'aimerais juste respirer jusqu'à jeudi.",
+    "Oui. Juste respirer."
+  ],
+  "expect": {
+    "diagram": "mystery-engage or fate-engage",
+    "trajectory": "dissolve"
+  }
+}

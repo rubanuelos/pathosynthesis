@@ -1,0 +1,16 @@
+{
+  "id": "en_new_crush",
+  "lang": "en",
+  "style": "light, wants more",
+  "about": "a new crush",
+  "answers": [
+    "Giddy. There's this person I met last week and I can't stop thinking about them.",
+    "Everywhere. My stomach mostly, it flips. I keep smiling at my phone like an idiot.",
+    "More of it, honestly. I want to stay in this a bit longer before it gets complicated.",
+    "Yes."
+  ],
+  "expect": {
+    "diagram": "mystery-engage",
+    "trajectory": "amplify"
+  }
+}
