@@ -11,14 +11,14 @@ port = 8010
 device = "External Headphones"            # e.g. "External Headphoens" — the shared 2-ch interface SuperCollider also uses
 channel = 2            # R = 8" speaker under the water. Channel 1 (L, chair) is refused in code.
 samplerate = 48000     # = SuperCollider's s.options.sampleRate
-peak_dbfs = -9.0
-gain_db = -14.0         # Limiter important
+peak_dbfs = -12.0
+gain_db = -12.0         # Limiter important
 max_peak_dbfs = -1.0
 fade_ms = 15.0
 listen_cue = ""        # optional WAV after each question, e.g. "voice/cues/listen.wav"
 
 [input]
-device = "MacBook Pro Microphone"            # mic near the object
+device = "Scarlett 2i2 4th Gens"            # mic near the object Example: MacBook Pro Microphone, Scarlett 2i2 4th Gen
 channel = 1
 samplerate = 48000
 gain_db = 0.5
@@ -51,7 +51,7 @@ preroll_s = 0.4
 tail_s = 0.3
 
 [stt]
-model = "large-v3-turbo"            # try "medium" or "large-v3-turbo" if latency allows
+model = "medium"            # try "medium" or "large-v3-turbo" if latency allows
 device = "cpu"
 compute_type = "int8"
 beam_size = 5

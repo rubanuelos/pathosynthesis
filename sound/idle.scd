@@ -88,8 +88,22 @@ SynthDef(\idleCrackle, { |out, density = 30, amp = 0.48, hiss = 0.004,
 };
 
 // FOLLOWS ORCHESTRATOR'S STATE
+// idle: everything. asking/composing: the chair pad (L) keeps playing under the voice, the crackle (R)
+// fades so the voice is alone on R. Any movement state: everything fades (contract v0.3 rev 5, §6.1).
 OSCdef(\idleState, { |msg|
-    if(msg[1] == \idle) { ~idleStart.() } { ~idleStop.(3) };
+    var st = msg[1];
+    case
+    { st == \idle } {
+        ~idleStart.();                                     // no-op if the pad kept running through asking
+        if(~idleCrack.isNil) { ~idleCrack = Synth(\idleCrackle, [out: ~roomBus], ~srcGroup) };
+    }
+    { [\asking, \composing].includes(st) } {
+        if(~idleRunning == true) {
+            ~idleCrack !? { |n| n.set(\rel, 3, \gate, 0) };
+            ~idleCrack = nil;
+        };
+    }
+    { ~idleStop.(3) };
 }, '/pathos/state');
 
 OSCdef(\idlePanic, { ~idleStop.(0.5) }, '/pathos/panic');

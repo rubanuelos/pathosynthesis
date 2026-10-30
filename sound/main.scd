@@ -5,7 +5,10 @@
 //   config.scd          channel map, private buses, groups, guards, master, watchdog, global OSC
 //   diagrams.scd        registry ~diagrams + /pathos/diagram/select and /position dispatch
 //   placeholder.scd     chair layer (\pathosHeart, \pathosDrone, /pathos/chair/*)
-//   habit-build.scd     habit-build patch    fate-engage.scd, mystery-engage.scd   stubs
+//   habit-build.scd     habit-build patch
+//   fate-engage.scd     fate-engage patch: brown noise filtered into 7 JI harmonics (sound/docs/diagram_translations.md)
+//   mystery-engage.scd  mystery-engage patch: 5 granular vertex pitches within 90 cents, lines = beatings
+//   sound/test/scores_<diagram>.scd   full mapped scores with the chair layer (not loaded here; evaluate on demand)
 //   idle.scd            idle soundscape. Silent until the orchestrator sends /pathos/state idle.
 (
 var dir = thisProcess.nowExecutingPath.dirname;
@@ -39,6 +42,6 @@ s.waitForBoot {
 	s.sync;
 
 	~pathosLoading = false;
-	"\n[pathos] READY on port %. Try ~habitTest.reset.play or ~habitDissolveTest.reset.play\n".format(NetAddr.langPort).postln;
+	"\n[pathos] READY on port %. Try ~habitTest.reset.play · ~fateSweep.reset.play · ~mysteryTour.reset.play\n".format(NetAddr.langPort).postln;
 };
 )
